@@ -1,6 +1,24 @@
 import React from 'react'
-
+import { useDispatch } from 'react-redux'
+import { bagActions } from '../store/BagSlice';
+import { useSelector } from 'react-redux';
 const HomeItem = ({item}) => {
+  const dispatch=useDispatch();
+  const bagsId=useSelector(store=>store.bag);
+
+
+
+
+  const handleAddBag=()=>{
+   dispatch(bagActions.addBagItem(item.id));
+  
+  }
+const handleRemoveBagItem=()=>{
+  dispatch(bagActions.removeBagItem(item.id));
+};
+ 
+
+
   return (
     <div>
        <div className="item-container">
@@ -15,8 +33,9 @@ const HomeItem = ({item}) => {
           <span className="original-price">Rs {item.original_price}</span>
           <span className="discount">({item.discount_percentage}% OFF)</span>
       </div>
-      <button className="btn-add-bag" >
-    Add to Bag</button>
+      {bagsId.indexOf(item.id)>=0?<button type="button" class="btn btn-danger btn-add-bag" onClick={handleRemoveBagItem}>Remove from Bag</button>:<button type="button" class="btn btn-success btn-add-bag" onClick={handleAddBag}>Add to Bag</button>
+}
+    
     </div>
     </div>
   )
